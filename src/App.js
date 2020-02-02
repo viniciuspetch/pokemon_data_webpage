@@ -49,7 +49,9 @@ class PokemonName extends React.Component {
     } else {
       return (
         <div>
-          nº {this.props.pokemon.id} - {this.props.pokemon.name}
+          nº {this.props.pokemon.id} -{" "}
+          {this.props.pokemon.name[0].toUpperCase() +
+            this.props.pokemon.name.slice(1)}
         </div>
       );
     }
@@ -75,6 +77,7 @@ class App extends React.Component {
   }
 
   searchPokemon(pokemonName) {
+    this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
     const P = new Pokedex.Pokedex();
     let self = this;
@@ -97,14 +100,14 @@ class App extends React.Component {
     let abilitiesList = "";
     if (this.state.pokemon != null) {
       abilitiesList = this.state.pokemon.abilities.map(ability => (
-        <div className="ability">{ability.ability.name}</div>
+        <div className="listItem">{ability.ability.name}</div>
       ));
     }
 
     let typesList = "";
     if (this.state.pokemon != null) {
       typesList = this.state.pokemon.types.map(type => (
-        <div className="type">{type.type.name}</div>
+        <div className="listItem">{type.type.name}</div>
       ));
     }
 

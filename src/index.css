@@ -31,3 +31,11 @@ code {
   margin: 20px;
   border: 1px solid black;
 }
+
+.listItem {
+  margin: 5px;
+  padding: 5px;
+  border: 1px solid grey;
+  background-color: #eeeeee;
+  max-width: 90%;
+}
