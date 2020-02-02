@@ -42,6 +42,20 @@ class SearchForm extends React.Component {
   }
 }
 
+class PokemonName extends React.Component {
+  render() {
+    if (this.props.pokemon == null) {
+      return null;
+    } else {
+      return (
+        <div>
+          nº {this.props.pokemon.id} - {this.props.pokemon.name}
+        </div>
+      );
+    }
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -83,22 +97,22 @@ class App extends React.Component {
     let abilitiesList = "";
     if (this.state.pokemon != null) {
       abilitiesList = this.state.pokemon.abilities.map(ability => (
-        <div class="ability">{ability.ability.name}</div>
+        <div className="ability">{ability.ability.name}</div>
       ));
     }
 
     let typesList = "";
     if (this.state.pokemon != null) {
       typesList = this.state.pokemon.types.map(type => (
-        <div class="ability">{type.type.name}</div>
+        <div className="type">{type.type.name}</div>
       ));
     }
 
     return (
       <div className="App">
         <SearchForm onChange={this.handleChange} />
+        <PokemonName pokemon={this.state.pokemon} />
         <div>
-          {this.state.pokemonName}
           <PokemonImage pokemon={this.state.pokemon} />
         </div>
         <div className="lists">

@@ -17,13 +17,17 @@ code {
   margin: auto;
   padding: 30px;
   text-align: center;
+  border: 1px solid black;
 }
 
 .lists {
-  background-color: pink;
+  margin: 3px;
+  border: 1px solid black;
 }
 
 .list {
-  float: left;
+  width: 40%;
+  display: inline-block;  
   margin: 20px;
+  border: 1px solid black;
 }
