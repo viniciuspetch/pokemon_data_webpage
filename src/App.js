@@ -63,23 +63,48 @@ class App extends React.Component {
   searchPokemon(pokemonName) {
     const Pokedex = require("pokeapi-js-wrapper");
     const P = new Pokedex.Pokedex();
-    console.log(pokemonName);
     let self = this;
 
-    P.getPokemonByName(pokemonName).then(function(response) {
-      console.log(response);
-      self.setState({ pokemon: response });
-    });
+    P.getPokemonByName(pokemonName)
+      .then(function(response) {
+        console.log(response);
+        self.setState({ pokemon: response });
+
+        console.log(response.abilities);
+        console.log(response.abilities[0].ability.name);
+      })
+      .catch(function(error) {
+        console.log(error);
+        self.setState({ pokemon: null });
+      });
   }
 
   render() {
+    let abilitiesList = "";
+    if (this.state.pokemon != null) {
+      abilitiesList = this.state.pokemon.abilities.map(ability => (
+        <div class="ability">{ability.ability.name}</div>
+      ));
+    }
+
+    let typesList = "";
+    if (this.state.pokemon != null) {
+      typesList = this.state.pokemon.types.map(type => (
+        <div class="ability">{type.type.name}</div>
+      ));
+    }
+
     return (
       <div className="App">
         <SearchForm onChange={this.handleChange} />
-        <br />
-        {this.state.pokemonName}
-        <br />
-        <PokemonImage pokemon={this.state.pokemon} />
+        <div>
+          {this.state.pokemonName}
+          <PokemonImage pokemon={this.state.pokemon} />
+        </div>
+        <div className="lists">
+          <div className="list abilitiesList">{abilitiesList}</div>
+          <div className="list typesList">{typesList}</div>
+        </div>
       </div>
     );
   }
