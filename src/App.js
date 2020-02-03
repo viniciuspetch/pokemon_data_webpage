@@ -116,9 +116,15 @@ class App extends React.Component {
     let typesList = "";
     if (this.state.pokemon != null) {
       typesList = this.state.pokemon.types.map(type => {
+        let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
+        let url_suffix = "_(type)";
         let name_fixed =
           type.type.name[0].toUpperCase() + type.type.name.slice(1);
-        return <div className="listItem">{name_fixed}</div>;
+        return (
+          <a href={url_prefix + name_fixed + url_suffix}>
+            <div className="listItem">{name_fixed}</div>
+          </a>
+        );
       });
     }
 
