@@ -99,11 +99,17 @@ class App extends React.Component {
     let abilitiesList = "";
     if (this.state.pokemon != null) {
       abilitiesList = this.state.pokemon.abilities.map(ability => {
+        let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
+        let url_suffix = "_(Ability)";
         let name_fixed = ability.ability.name
           .split("-")
           .map(part => part[0].toUpperCase() + part.slice(1))
           .join(" ");
-        return <div className="listItem">{name_fixed}</div>;
+        return (
+          <a href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}>
+            <div className="listItem">{name_fixed}</div>
+          </a>
+        );
       });
     }
 
