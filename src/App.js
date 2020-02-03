@@ -25,7 +25,6 @@ class SearchForm extends React.Component {
   test(e) {
     e.preventDefault();
     let pokemonName = e.target.pokemonName.value;
-    console.log(pokemonName);
     this.props.onChange(pokemonName);
   }
 
@@ -39,6 +38,27 @@ class SearchForm extends React.Component {
         <input type="submit" value="Search" />
       </form>
     );
+  }
+}
+
+class PokemonName extends React.Component {
+  render() {
+    if (this.props.pokemon == null) {
+      return null;
+    } else {
+      let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
+      let url_suffix = "_(Pokémon)";
+      let name_uppercased =
+        this.props.pokemon.name[0].toUpperCase() +
+        this.props.pokemon.name.slice(1);
+      return (
+        <div>
+          <a href={url_prefix + name_uppercased + url_suffix}>
+            nº {this.props.pokemon.id} - {name_uppercased}
+          </a>
+        </div>
+      );
+    }
   }
 }
 
@@ -61,20 +81,16 @@ class App extends React.Component {
   }
 
   searchPokemon(pokemonName) {
+    this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
     const P = new Pokedex.Pokedex();
     let self = this;
 
     P.getPokemonByName(pokemonName)
       .then(function(response) {
-        console.log(response);
         self.setState({ pokemon: response });
-
-        console.log(response.abilities);
-        console.log(response.abilities[0].ability.name);
       })
       .catch(function(error) {
-        console.log(error);
         self.setState({ pokemon: null });
       });
   }
@@ -82,23 +98,41 @@ class App extends React.Component {
   render() {
     let abilitiesList = "";
     if (this.state.pokemon != null) {
-      abilitiesList = this.state.pokemon.abilities.map(ability => (
-        <div class="ability">{ability.ability.name}</div>
-      ));
+      abilitiesList = this.state.pokemon.abilities.map(ability => {
+        let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
+        let url_suffix = "_(Ability)";
+        let name_fixed = ability.ability.name
+          .split("-")
+          .map(part => part[0].toUpperCase() + part.slice(1))
+          .join(" ");
+        return (
+          <a href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}>
+            <div className="listItem">{name_fixed}</div>
+          </a>
+        );
+      });
     }
 
     let typesList = "";
     if (this.state.pokemon != null) {
-      typesList = this.state.pokemon.types.map(type => (
-        <div class="ability">{type.type.name}</div>
-      ));
+      typesList = this.state.pokemon.types.map(type => {
+        let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
+        let url_suffix = "_(type)";
+        let name_fixed =
+          type.type.name[0].toUpperCase() + type.type.name.slice(1);
+        return (
+          <a href={url_prefix + name_fixed + url_suffix}>
+            <div className="listItem">{name_fixed}</div>
+          </a>
+        );
+      });
     }
 
     return (
       <div className="App">
         <SearchForm onChange={this.handleChange} />
+        <PokemonName pokemon={this.state.pokemon} />
         <div>
-          {this.state.pokemonName}
           <PokemonImage pokemon={this.state.pokemon} />
         </div>
         <div className="lists">
