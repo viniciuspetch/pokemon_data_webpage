@@ -20,21 +20,28 @@ class PokemonImage extends React.Component {
 class SearchForm extends React.Component {
   constructor(props) {
     super(props);
-    this.test = this.test.bind(this);
+    this.handleInput = this.handleInput.bind(this);
+    this.handleChange = this.handleChange.bind(this);
   }
 
-  test(e) {
+  handleInput(e) {
     e.preventDefault();
     let pokemonName = e.target.pokemonName.value;
+    this.props.onInput(pokemonName);
+  }
+
+  handleChange(e) {
+    e.preventDefault();
+    let pokemonName = e.target.value;
     this.props.onChange(pokemonName);
   }
 
   render() {
     return (
-      <form onSubmit={this.test}>
+      <form onSubmit={this.handleInput}>
         <label>
           Pokémon name:
-          <input type="text" name="pokemonName" />
+          <input type="text" name="pokemonName" onChange={this.handleChange} />
         </label>
         <input type="submit" value="Search" />
       </form>
@@ -152,13 +159,19 @@ class PokemonMovesetTab extends React.Component {
 class PokemonList extends React.Component {
   render() {
     let rawList = [];
-
+    let pokemonName = this.props.pokemonName;
     for (let key in this.props.pokemonList) {
-      rawList = rawList.concat(this.props.pokemonList[key])
+      rawList = rawList.concat(this.props.pokemonList[key]);
     }
-
-    console.log(rawList);
-    return null;
+    let finalList = rawList.filter(item =>
+      item.toLowerCase().includes(pokemonName)
+    );
+    return (
+      <>
+        {finalList}
+        <br />
+      </>
+    );
   }
 }
 
@@ -172,14 +185,18 @@ class App extends React.Component {
       pokemon: null,
       currTab: 1
     };
+    this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.searchPokemon = this.searchPokemon.bind(this);
     this.setTab = this.setTab.bind(this);
   }
 
+  handleInput(pokemonName) {
+    this.searchPokemon(pokemonName);
+  }
+
   handleChange(pokemonName) {
     this.setState({ pokemonName: pokemonName });
-    this.searchPokemon(pokemonName);
   }
 
   searchPokemon(pokemonName) {
@@ -198,21 +215,12 @@ class App extends React.Component {
   }
 
   setTab(e) {
-    /*
-    console.log(e);
-    console.log(e.target);
-    console.log(e.target.id);    
-    console.log(e.target.value);
-    console.log(parseInt(e.target.value));
-    */
     this.setState({
       currTab: parseInt(e.target.value)
     });
   }
 
   render() {
-    console.log(pokemonList);
-
     let currTab = null;
     switch (this.state.currTab) {
       case 1:
@@ -230,8 +238,11 @@ class App extends React.Component {
 
     return (
       <div className="App">
-        <SearchForm onChange={this.handleChange} />
-        <PokemonList pokemonList={pokemonList} />
+        <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
+        <PokemonList
+          pokemonName={this.state.pokemonName}
+          pokemonList={pokemonList}
+        />
         <PokemonName pokemon={this.state.pokemon} />
         <button value="1" onClick={this.setTab}>
           Data
