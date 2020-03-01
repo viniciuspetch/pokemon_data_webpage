@@ -197,38 +197,6 @@ class App extends React.Component {
   }
 
   render() {
-    let abilitiesList = "";
-    if (this.state.pokemon != null) {
-      abilitiesList = this.state.pokemon.abilities.map(ability => {
-        let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
-        let url_suffix = "_(Ability)";
-        let name_fixed = ability.ability.name
-          .split("-")
-          .map(part => part[0].toUpperCase() + part.slice(1))
-          .join(" ");
-        return (
-          <a href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}>
-            <div className="listItem">{name_fixed}</div>
-          </a>
-        );
-      });
-    }
-
-    let typesList = "";
-    if (this.state.pokemon != null) {
-      typesList = this.state.pokemon.types.map(type => {
-        let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
-        let url_suffix = "_(type)";
-        let name_fixed =
-          type.type.name[0].toUpperCase() + type.type.name.slice(1);
-        return (
-          <a href={url_prefix + name_fixed + url_suffix}>
-            <div className="listItem">{name_fixed}</div>
-          </a>
-        );
-      });
-    }
-
     let currTab = null;
     switch (this.state.currTab) {
       case 1:
