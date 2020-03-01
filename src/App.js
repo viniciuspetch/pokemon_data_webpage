@@ -1,5 +1,6 @@
 import React from "react";
 import "./App.css";
+import { pokemonList } from "./PokeList.js";
 
 class PokemonImage extends React.Component {
   render() {
@@ -148,6 +149,19 @@ class PokemonMovesetTab extends React.Component {
   }
 }
 
+class PokemonList extends React.Component {
+  render() {
+    let rawList = [];
+
+    for (let key in this.props.pokemonList) {
+      rawList = rawList.concat(this.props.pokemonList[key])
+    }
+
+    console.log(rawList);
+    return null;
+  }
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -197,6 +211,8 @@ class App extends React.Component {
   }
 
   render() {
+    console.log(pokemonList);
+
     let currTab = null;
     switch (this.state.currTab) {
       case 1:
@@ -215,6 +231,7 @@ class App extends React.Component {
     return (
       <div className="App">
         <SearchForm onChange={this.handleChange} />
+        <PokemonList pokemonList={pokemonList} />
         <PokemonName pokemon={this.state.pokemon} />
         <button value="1" onClick={this.setTab}>
           Data
