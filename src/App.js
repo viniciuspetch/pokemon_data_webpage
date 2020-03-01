@@ -127,7 +127,18 @@ class PokemonDataTab extends React.Component {
 
 class PokemonStatsTab extends React.Component {
   render() {
-    return <p>Stats Tab</p>;
+    if (this.props.pokemon) {
+      return (
+        <>
+          <p>HP: {this.props.pokemon.stats[5].base_stat}</p>
+          <p>Attack: {this.props.pokemon.stats[4].base_stat}</p>
+          <p>Defense: {this.props.pokemon.stats[3].base_stat}</p>
+          <p>Special Attack: {this.props.pokemon.stats[2].base_stat}</p>
+          <p>Special Defense: {this.props.pokemon.stats[1].base_stat}</p>
+          <p>Speed: {this.props.pokemon.stats[0].base_stat}</p>
+        </>
+      );
+    } else return null;
   }
 }
 
@@ -224,10 +235,10 @@ class App extends React.Component {
         currTab = <PokemonDataTab pokemon={this.state.pokemon} />;
         break;
       case 2:
-        currTab = <PokemonStatsTab />;
+        currTab = <PokemonStatsTab pokemon={this.state.pokemon} />;
         break;
       case 3:
-        currTab = <PokemonMovesetTab />;
+        currTab = <PokemonMovesetTab pokemon={this.state.pokemon} />;
         break;
       default:
         currTab = <h1>Error</h1>;
