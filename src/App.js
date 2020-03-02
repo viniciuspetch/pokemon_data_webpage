@@ -152,7 +152,87 @@ class PokemonStatsTab extends React.Component {
 
 class PokemonMovesetTab extends React.Component {
   render() {
-    return <p>Moveset Tab</p>;
+    if (this.props.pokemon == null) {
+      return null;
+    }
+    let moveset_machine = [];
+    let moveset_levelup = [];
+    let moveset_egg = [];
+    let moveset_other = [];
+    for (let i in this.props.pokemon.moves) {
+      let move = this.props.pokemon.moves[i];
+      console.log(
+        move.move.name +
+          " " +
+          move.version_group_details[0].move_learn_method.name
+      );
+      if (move.version_group_details[0].move_learn_method.name === "machine") {
+        moveset_machine.push(move);
+      } else if (
+        move.version_group_details[0].move_learn_method.name === "egg"
+      ) {
+        moveset_egg.push(move);
+      } else if (
+        move.version_group_details[0].move_learn_method.name === "level-up"
+      ) {
+        moveset_levelup.push(move);
+      } else {
+        moveset_other.push(move);
+      }
+    }
+    let list_levelup = moveset_levelup
+      .map(item =>
+        item.move.name
+          .split("-")
+          .map(a => a[0].toUpperCase() + a.slice(1))
+          .join(" ")
+      )
+      .join(", ");
+    let list_machine = moveset_machine
+      .map(item =>
+        item.move.name
+          .split("-")
+          .map(a => a[0].toUpperCase() + a.slice(1))
+          .join(" ")
+      )
+      .join(", ");
+    let list_egg = moveset_egg
+      .map(item =>
+        item.move.name
+          .split("-")
+          .map(a => a[0].toUpperCase() + a.slice(1))
+          .join(" ")
+      )
+      .join(", ");
+    let list_other = moveset_other
+      .map(item =>
+        item.move.name
+          .split("-")
+          .map(a => a[0].toUpperCase() + a.slice(1))
+          .join(" ")
+      )
+      .join(", ");
+
+    return (
+      <div>
+        <div className="moveset_group">
+          <h3>Level-up</h3>
+          <p>{list_levelup}</p>
+        </div>
+        <div className="moveset_group">
+          <h3>TMs and HMs</h3>
+          <p>{list_machine}</p>
+        </div>
+        <div className="moveset_group">
+          <h3>Egg moves</h3>
+          <p>{list_egg}</p>
+        </div>
+        <div className="moveset_group">
+          <h3>Other means</h3>
+          <p>{list_other}</p>
+        </div>
+      </div>
+    );
   }
 }
 
