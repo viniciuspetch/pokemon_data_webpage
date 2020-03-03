@@ -79,7 +79,7 @@ class PokemonDataTab extends React.Component {
   }
 
   getAbilities() {
-    let abilitiesList = "";
+    let abilitiesList = [];
     if (this.props.pokemon != null) {
       abilitiesList = this.props.pokemon.abilities.map((ability, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
@@ -102,11 +102,11 @@ class PokemonDataTab extends React.Component {
       });
     }
 
-    return abilitiesList;
+    return abilitiesList.reverse();
   }
 
   getTypes() {
-    let typesList = "";
+    let typesList = [];
     if (this.props.pokemon != null) {
       typesList = this.props.pokemon.types.map((type, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
@@ -122,7 +122,7 @@ class PokemonDataTab extends React.Component {
       });
     }
 
-    return typesList;
+    return typesList.reverse();
   }
 
   render() {
