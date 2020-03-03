@@ -94,7 +94,9 @@ class PokemonDataTab extends React.Component {
             key={index.toString()}
             href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}
           >
-            <div className="listItem">{name_fixed}</div>
+            <div className="listItem">
+              {name_fixed + (ability.is_hidden ? " (Hidden)" : "")}
+            </div>
           </a>
         );
       });
