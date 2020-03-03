@@ -40,7 +40,7 @@ class SearchForm extends React.Component {
     return (
       <form onSubmit={this.handleInput}>
         <label>
-          Pokémon name:
+          Search Pokémon by name or number:
           <input type="text" name="pokemonName" onChange={this.handleChange} />
         </label>
         <input type="submit" value="Search" />
@@ -243,9 +243,11 @@ class PokemonList extends React.Component {
     for (let key in this.props.pokemonList) {
       rawList = rawList.concat(this.props.pokemonList[key]);
     }
+
     let finalList = rawList.filter(item =>
       item.toLowerCase().includes(pokemonName)
     );
+
     return (
       <>
         {finalList}
@@ -263,12 +265,15 @@ class App extends React.Component {
       pokemonName: "",
       searchResult: "",
       pokemon: null,
-      currTab: 1
+      currTab: 1,
+      pokemonNumber: null
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.searchPokemon = this.searchPokemon.bind(this);
     this.setTab = this.setTab.bind(this);
+    this.getPreviousPokemon = this.getPreviousPokemon.bind(this);
+    this.getNextPokemon = this.getNextPokemon.bind(this);
   }
 
   handleInput(pokemonName) {
@@ -287,11 +292,24 @@ class App extends React.Component {
 
     P.getPokemonByName(pokemonName)
       .then(function(response) {
-        self.setState({ pokemon: response });
+        self.setState({
+          pokemon: response,
+          pokemonNumber: response.game_indices[0].game_index
+        });
       })
       .catch(function(error) {
         self.setState({ pokemon: null });
       });
+  }
+
+  getPreviousPokemon() {
+    console.log(this.state.pokemonNumber - 1);
+    this.searchPokemon(this.state.pokemonNumber - 1);
+  }
+
+  getNextPokemon() {
+    console.log(this.state.pokemonNumber + 1);
+    this.searchPokemon(this.state.pokemonNumber + 1);
   }
 
   setTab(e) {
@@ -316,8 +334,20 @@ class App extends React.Component {
         currTab = <h1>Error</h1>;
     }
 
+    console.log(this.state.pokemonNumber);
+    let scrollButtons = null;
+    if (this.state.pokemon) {
+      scrollButtons = (
+        <>
+          <button onClick={this.getPreviousPokemon}>Previous</button>
+          <button onClick={this.getNextPokemon}>Next</button>
+        </>
+      );
+    }
+
     return (
       <div className="App">
+        {scrollButtons}
         <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
         <PokemonList
           pokemonName={this.state.pokemonName}
