@@ -81,7 +81,7 @@ class PokemonDataTab extends React.Component {
   getAbilities() {
     let abilitiesList = "";
     if (this.props.pokemon != null) {
-      abilitiesList = this.props.pokemon.abilities.map(ability => {
+      abilitiesList = this.props.pokemon.abilities.map((ability, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
         let url_suffix = "_(Ability)";
         let name_fixed = ability.ability.name
@@ -90,7 +90,10 @@ class PokemonDataTab extends React.Component {
           .join(" ");
 
         return (
-          <a href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}>
+          <a
+            key={index.toString()}
+            href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}
+          >
             <div className="listItem">{name_fixed}</div>
           </a>
         );
@@ -103,14 +106,14 @@ class PokemonDataTab extends React.Component {
   getTypes() {
     let typesList = "";
     if (this.props.pokemon != null) {
-      typesList = this.props.pokemon.types.map(type => {
+      typesList = this.props.pokemon.types.map((type, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
         let url_suffix = "_(type)";
         let name_fixed =
           type.type.name[0].toUpperCase() + type.type.name.slice(1);
 
         return (
-          <a href={url_prefix + name_fixed + url_suffix}>
+          <a key={index.toString()} href={url_prefix + name_fixed + url_suffix}>
             <div className="listItem">{name_fixed}</div>
           </a>
         );
@@ -161,11 +164,6 @@ class PokemonMovesetTab extends React.Component {
     let moveset_other = [];
     for (let i in this.props.pokemon.moves) {
       let move = this.props.pokemon.moves[i];
-      console.log(
-        move.move.name +
-          " " +
-          move.version_group_details[0].move_learn_method.name
-      );
       if (move.version_group_details[0].move_learn_method.name === "machine") {
         moveset_machine.push(move);
       } else if (
@@ -236,25 +234,23 @@ class PokemonMovesetTab extends React.Component {
   }
 }
 
-class PokemonList extends React.Component {
-  render() {
-    let rawList = [];
-    let pokemonName = this.props.pokemonName;
-    for (let key in this.props.pokemonList) {
-      rawList = rawList.concat(this.props.pokemonList[key]);
-    }
-
-    let finalList = rawList.filter(item =>
-      item.toLowerCase().includes(pokemonName)
-    );
-
-    return (
-      <>
-        {finalList}
-        <br />
-      </>
-    );
+function PokemonList(props) {
+  let rawList = [];
+  let pokemonName = props.pokemonName;
+  for (let key in props.pokemonList) {
+    rawList = rawList.concat(props.pokemonList[key]);
   }
+
+  let finalList = rawList.filter(item =>
+    item.toLowerCase().includes(pokemonName)
+  );
+
+  return (
+    <>
+      {finalList}
+      <br />
+    </>
+  );
 }
 
 class App extends React.Component {
@@ -303,12 +299,10 @@ class App extends React.Component {
   }
 
   getPreviousPokemon() {
-    console.log(this.state.pokemonNumber - 1);
     this.searchPokemon(this.state.pokemonNumber - 1);
   }
 
   getNextPokemon() {
-    console.log(this.state.pokemonNumber + 1);
     this.searchPokemon(this.state.pokemonNumber + 1);
   }
 
@@ -334,7 +328,6 @@ class App extends React.Component {
         currTab = <h1>Error</h1>;
     }
 
-    console.log(this.state.pokemonNumber);
     let scrollButtons = null;
     if (this.state.pokemon) {
       scrollButtons = (
