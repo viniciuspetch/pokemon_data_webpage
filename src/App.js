@@ -235,19 +235,9 @@ class PokemonMovesetTab extends React.Component {
 }
 
 function PokemonList(props) {
-  let rawList = [];
-  let pokemonName = props.pokemonName;
-  for (let key in props.pokemonList) {
-    rawList = rawList.concat(props.pokemonList[key]);
-  }
-
-  let finalList = rawList.filter(item =>
-    item.toLowerCase().includes(pokemonName)
-  );
-
   return (
     <>
-      {finalList}
+      {props.pokemonList}
       <br />
     </>
   );
@@ -262,7 +252,8 @@ class App extends React.Component {
       searchResult: "",
       pokemon: null,
       currTab: 1,
-      pokemonNumber: null
+      pokemonNumber: null,
+      pokemonList: this.filterPokemonList("")
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -272,15 +263,40 @@ class App extends React.Component {
     this.getNextPokemon = this.getNextPokemon.bind(this);
   }
 
+  componentDidMount() {
+    this.filterPokemonList();
+  }
+
+  filterPokemonList(pokemonName) {
+    let rawList = [];
+    for (let key in pokemonList) {
+      rawList = rawList.concat(pokemonList[key]);
+    }
+    return rawList.filter(item => item.toLowerCase().includes(pokemonName));
+  }
+
   handleInput(pokemonName) {
     this.searchPokemon(pokemonName);
   }
 
   handleChange(pokemonName) {
-    this.setState({ pokemonName: pokemonName });
+    this.setState({
+      pokemonName: pokemonName,
+      pokemonList: this.filterPokemonList(pokemonName)
+    });
   }
 
   searchPokemon(pokemonName) {
+    if (
+      isNaN(pokemonName) &&
+      !this.state.pokemonList.find(name => {
+        return name.toLowerCase().trim() === pokemonName.toLowerCase().trim();
+      })
+    ) {
+      console.log("Search blocked by list");
+      return null;
+    }
+
     this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
     const P = new Pokedex.Pokedex();
@@ -342,10 +358,7 @@ class App extends React.Component {
       <div className="App">
         {scrollButtons}
         <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
-        <PokemonList
-          pokemonName={this.state.pokemonName}
-          pokemonList={pokemonList}
-        />
+        <PokemonList pokemonList={this.state.pokemonList} />
         <PokemonName pokemon={this.state.pokemon} />
         <button value="1" onClick={this.setTab}>
           Data
