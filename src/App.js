@@ -343,6 +343,7 @@ class App extends React.Component {
     P.getPokemonByName(pokemonName)
       .then(function(response) {
         self.setState({
+          currTab: 1,
           pokemon: response,
           pokemonNumber: response.game_indices[0].game_index
         });
