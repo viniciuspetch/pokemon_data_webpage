@@ -79,9 +79,9 @@ class PokemonDataTab extends React.Component {
   }
 
   getAbilities() {
-    let abilitiesList = "";
+    let abilitiesList = [];
     if (this.props.pokemon != null) {
-      abilitiesList = this.props.pokemon.abilities.map(ability => {
+      abilitiesList = this.props.pokemon.abilities.map((ability, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
         let url_suffix = "_(Ability)";
         let name_fixed = ability.ability.name
@@ -90,34 +90,39 @@ class PokemonDataTab extends React.Component {
           .join(" ");
 
         return (
-          <a href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}>
-            <div className="listItem">{name_fixed}</div>
+          <a
+            key={index.toString()}
+            href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}
+          >
+            <div className="listItem">
+              {name_fixed + (ability.is_hidden ? " (Hidden)" : "")}
+            </div>
           </a>
         );
       });
     }
 
-    return abilitiesList;
+    return abilitiesList.reverse();
   }
 
   getTypes() {
-    let typesList = "";
+    let typesList = [];
     if (this.props.pokemon != null) {
-      typesList = this.props.pokemon.types.map(type => {
+      typesList = this.props.pokemon.types.map((type, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
         let url_suffix = "_(type)";
         let name_fixed =
           type.type.name[0].toUpperCase() + type.type.name.slice(1);
 
         return (
-          <a href={url_prefix + name_fixed + url_suffix}>
+          <a key={index.toString()} href={url_prefix + name_fixed + url_suffix}>
             <div className="listItem">{name_fixed}</div>
           </a>
         );
       });
     }
 
-    return typesList;
+    return typesList.reverse();
   }
 
   render() {
@@ -138,12 +143,48 @@ class PokemonStatsTab extends React.Component {
     if (this.props.pokemon) {
       return (
         <>
-          <p>HP: {this.props.pokemon.stats[5].base_stat}</p>
-          <p>Attack: {this.props.pokemon.stats[4].base_stat}</p>
-          <p>Defense: {this.props.pokemon.stats[3].base_stat}</p>
-          <p>Special Attack: {this.props.pokemon.stats[2].base_stat}</p>
-          <p>Special Defense: {this.props.pokemon.stats[1].base_stat}</p>
-          <p>Speed: {this.props.pokemon.stats[0].base_stat}</p>
+          <p style={{ margin: "5px 0" }}>
+            HP: {this.props.pokemon.stats[5].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[5].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Attack: {this.props.pokemon.stats[4].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[4].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Defense: {this.props.pokemon.stats[3].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[3].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Special Attack: {this.props.pokemon.stats[2].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[2].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Special Defense: {this.props.pokemon.stats[1].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[1].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Speed: {this.props.pokemon.stats[0].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[0].base_stat }}
+          ></div>
         </>
       );
     } else return null;
@@ -161,11 +202,6 @@ class PokemonMovesetTab extends React.Component {
     let moveset_other = [];
     for (let i in this.props.pokemon.moves) {
       let move = this.props.pokemon.moves[i];
-      console.log(
-        move.move.name +
-          " " +
-          move.version_group_details[0].move_learn_method.name
-      );
       if (move.version_group_details[0].move_learn_method.name === "machine") {
         moveset_machine.push(move);
       } else if (
@@ -236,25 +272,13 @@ class PokemonMovesetTab extends React.Component {
   }
 }
 
-class PokemonList extends React.Component {
-  render() {
-    let rawList = [];
-    let pokemonName = this.props.pokemonName;
-    for (let key in this.props.pokemonList) {
-      rawList = rawList.concat(this.props.pokemonList[key]);
-    }
-
-    let finalList = rawList.filter(item =>
-      item.toLowerCase().includes(pokemonName)
-    );
-
-    return (
-      <>
-        {finalList}
-        <br />
-      </>
-    );
-  }
+function PokemonList(props) {
+  return (
+    <>
+      {props.pokemonList}
+      <br />
+    </>
+  );
 }
 
 class App extends React.Component {
@@ -266,7 +290,8 @@ class App extends React.Component {
       searchResult: "",
       pokemon: null,
       currTab: 1,
-      pokemonNumber: null
+      pokemonNumber: null,
+      pokemonList: this.filterPokemonList("")
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -276,15 +301,40 @@ class App extends React.Component {
     this.getNextPokemon = this.getNextPokemon.bind(this);
   }
 
+  componentDidMount() {
+    this.filterPokemonList();
+  }
+
+  filterPokemonList(pokemonName) {
+    let rawList = [];
+    for (let key in pokemonList) {
+      rawList = rawList.concat(pokemonList[key]);
+    }
+    return rawList.filter(item => item.toLowerCase().includes(pokemonName));
+  }
+
   handleInput(pokemonName) {
     this.searchPokemon(pokemonName);
   }
 
   handleChange(pokemonName) {
-    this.setState({ pokemonName: pokemonName });
+    this.setState({
+      pokemonName: pokemonName,
+      pokemonList: this.filterPokemonList(pokemonName)
+    });
   }
 
   searchPokemon(pokemonName) {
+    if (
+      isNaN(pokemonName) &&
+      !this.state.pokemonList.find(name => {
+        return name.toLowerCase().trim() === pokemonName.toLowerCase().trim();
+      })
+    ) {
+      console.log("Search blocked by list");
+      return null;
+    }
+
     this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
     const P = new Pokedex.Pokedex();
@@ -293,6 +343,7 @@ class App extends React.Component {
     P.getPokemonByName(pokemonName)
       .then(function(response) {
         self.setState({
+          currTab: 1,
           pokemon: response,
           pokemonNumber: response.game_indices[0].game_index
         });
@@ -303,12 +354,10 @@ class App extends React.Component {
   }
 
   getPreviousPokemon() {
-    console.log(this.state.pokemonNumber - 1);
     this.searchPokemon(this.state.pokemonNumber - 1);
   }
 
   getNextPokemon() {
-    console.log(this.state.pokemonNumber + 1);
     this.searchPokemon(this.state.pokemonNumber + 1);
   }
 
@@ -334,7 +383,6 @@ class App extends React.Component {
         currTab = <h1>Error</h1>;
     }
 
-    console.log(this.state.pokemonNumber);
     let scrollButtons = null;
     if (this.state.pokemon) {
       scrollButtons = (
@@ -349,10 +397,7 @@ class App extends React.Component {
       <div className="App">
         {scrollButtons}
         <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
-        <PokemonList
-          pokemonName={this.state.pokemonName}
-          pokemonList={pokemonList}
-        />
+        <PokemonList pokemonList={this.state.pokemonList} />
         <PokemonName pokemon={this.state.pokemon} />
         <button value="1" onClick={this.setTab}>
           Data
