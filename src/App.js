@@ -143,12 +143,48 @@ class PokemonStatsTab extends React.Component {
     if (this.props.pokemon) {
       return (
         <>
-          <p>HP: {this.props.pokemon.stats[5].base_stat}</p>
-          <p>Attack: {this.props.pokemon.stats[4].base_stat}</p>
-          <p>Defense: {this.props.pokemon.stats[3].base_stat}</p>
-          <p>Special Attack: {this.props.pokemon.stats[2].base_stat}</p>
-          <p>Special Defense: {this.props.pokemon.stats[1].base_stat}</p>
-          <p>Speed: {this.props.pokemon.stats[0].base_stat}</p>
+          <p style={{ margin: "5px 0" }}>
+            HP: {this.props.pokemon.stats[5].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[5].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Attack: {this.props.pokemon.stats[4].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[4].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Defense: {this.props.pokemon.stats[3].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[3].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Special Attack: {this.props.pokemon.stats[2].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[2].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Special Defense: {this.props.pokemon.stats[1].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[1].base_stat }}
+          ></div>
+          <p style={{ margin: "5px 0" }}>
+            Speed: {this.props.pokemon.stats[0].base_stat}
+          </p>
+          <div
+            className="statbox"
+            style={{ width: this.props.pokemon.stats[0].base_stat }}
+          ></div>
         </>
       );
     } else return null;
