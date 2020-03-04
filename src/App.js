@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import { pokemonList } from "./PokeList.js";
+import Cookies from "universal-cookie";
 
 class PokemonImage extends React.Component {
   render() {
@@ -310,14 +311,23 @@ class App extends React.Component {
     for (let key in pokemonList) {
       rawList = rawList.concat(pokemonList[key]);
     }
+
     return rawList.filter(item => item.toLowerCase().includes(pokemonName));
   }
 
   handleInput(pokemonName) {
+    if (pokemonName) {
+      pokemonName = pokemonName.toLowerCase().trim();
+    }
+
     this.searchPokemon(pokemonName);
   }
 
   handleChange(pokemonName) {
+    if (pokemonName) {
+      pokemonName = pokemonName.toLowerCase().trim();
+    }
+
     this.setState({
       pokemonName: pokemonName,
       pokemonList: this.filterPokemonList(pokemonName)
@@ -325,6 +335,15 @@ class App extends React.Component {
   }
 
   searchPokemon(pokemonName) {
+    if (pokemonName != null) {
+      if (!isNaN(pokemonName)) {
+        pokemonName = parseInt(pokemonName);
+      } else {
+        pokemonName = pokemonName.toLowerCase();
+      }
+    }
+    console.log("Pokemon searched: " + pokemonName);
+
     if (
       isNaN(pokemonName) &&
       !this.state.pokemonList.find(name => {
@@ -334,6 +353,15 @@ class App extends React.Component {
       console.log("Search blocked by list");
       return null;
     }
+
+    const cookies = new Cookies();
+    let lastPokemons = cookies.get("lastPokemons");
+    for (let i = 0; i < 4; i++) {
+      lastPokemons[i] = lastPokemons[i + 1];
+    }
+    lastPokemons[4] = pokemonName;
+    cookies.set("lastPokemons", lastPokemons);
+    console.log(lastPokemons);
 
     this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
@@ -368,6 +396,24 @@ class App extends React.Component {
   }
 
   render() {
+    const cookies = new Cookies();
+    let lastPokemons = Object.values(cookies.get("lastPokemons"))
+      .reverse()
+      .map((value, index) => {
+        if (typeof value == "string") {
+          value = value[0].toUpperCase() + value.slice(1);
+        }
+        if (typeof value == "number") {
+          value = <i>{"Pokémon nº " + value}</i>;
+        }
+        return (
+          <div key={index}>
+            {value}
+            <br />
+          </div>
+        );
+      });
+
     let currTab = null;
     switch (this.state.currTab) {
       case 1:
@@ -396,6 +442,7 @@ class App extends React.Component {
     return (
       <div className="App">
         {scrollButtons}
+        {lastPokemons}
         <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
         <PokemonList pokemonList={this.state.pokemonList} />
         <PokemonName pokemon={this.state.pokemon} />
