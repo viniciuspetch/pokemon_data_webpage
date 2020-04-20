@@ -397,6 +397,9 @@ class App extends React.Component {
 
   render() {
     const cookies = new Cookies();
+    if (!cookies.get("lastPokemons")) {
+      cookies.set("lastPokemons", [])
+    }    
     let lastPokemons = Object.values(cookies.get("lastPokemons"))
       .reverse()
       .map((value, index) => {
@@ -413,7 +416,6 @@ class App extends React.Component {
           </div>
         );
       });
-
     let currTab = null;
     switch (this.state.currTab) {
       case 1:
