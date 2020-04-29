@@ -4,6 +4,7 @@ import { pokemonList } from "./PokeList.js";
 import Cookies from "universal-cookie";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
+import ListGroup from "react-bootstrap/ListGroup";
 
 class PokemonImage extends React.Component {
   render() {
@@ -427,10 +428,9 @@ class App extends React.Component {
           value = <i>{"Pokémon nº " + value}</i>;
         }
         return (
-          <div key={index}>
+          <ListGroup.Item key={index}>
             {value}
-            <br />
-          </div>
+          </ListGroup.Item>
         );
       });
     let currTab = null;
@@ -461,7 +461,7 @@ class App extends React.Component {
     return (
       <div className="App">
         {scrollButtons}
-        {lastPokemons}
+        <ListGroup>{lastPokemons}</ListGroup>
         <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
         <PokemonList pokemonList={this.state.pokemonList} />
         <PokemonName pokemon={this.state.pokemon} />
