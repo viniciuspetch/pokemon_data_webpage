@@ -16,6 +16,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import InputGroup from "react-bootstrap/InputGroup";
 import Card from "react-bootstrap/Card";
+import ButtonGroup from 'react-bootstrap/ButtonGroup'
 
 class PokemonImage extends React.Component {
   render() {
@@ -462,16 +463,15 @@ class App extends React.Component {
     let scrollButtons = null;
     if (this.state.pokemon) {
       scrollButtons = (
-        <>
-          <button onClick={this.getPreviousPokemon}>Previous</button>
-          <button onClick={this.getNextPokemon}>Next</button>
-        </>
+        <ButtonGroup aria-label="Previous and next Pokémon">
+          <Button onClick={this.getPreviousPokemon}>Previous</Button>
+          <Button onClick={this.getNextPokemon}>Next</Button>
+        </ButtonGroup>
       );
     }
 
     return (
       <Container className="App">
-        {scrollButtons}
         <ListGroup>{lastPokemons}</ListGroup>
         <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
           <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
@@ -479,6 +479,7 @@ class App extends React.Component {
         <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
           <PokemonList pokemonList={this.state.pokemonList} />
         </Row>
+        {scrollButtons}
         <PokemonName pokemon={this.state.pokemon} />
         <PokemonImage pokemon={this.state.pokemon} />
         <Tabs defaultActiveKey="stats" style={{ "margin-bottom": "10px" }}>
