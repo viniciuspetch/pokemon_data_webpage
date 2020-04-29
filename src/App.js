@@ -439,21 +439,6 @@ class App extends React.Component {
         }
         return <ListGroup.Item key={index}>{value}</ListGroup.Item>;
       });
-    let currTab = null;
-    switch (this.state.currTab) {
-      case 1:
-        currTab = <PokemonDataTab pokemon={this.state.pokemon} />;
-        break;
-      case 2:
-        currTab = <PokemonStatsTab pokemon={this.state.pokemon} />;
-        break;
-      case 3:
-        currTab = <PokemonMovesetTab pokemon={this.state.pokemon} />;
-        break;
-      default:
-        currTab = <h1>Error</h1>;
-    }
-
     let scrollButtons = null;
     if (this.state.pokemon) {
       scrollButtons = (
@@ -468,16 +453,14 @@ class App extends React.Component {
       <Container className="App">
         {scrollButtons}
         <ListGroup>{lastPokemons}</ListGroup>
-        <Row className="justify-content-md-center" style={{ margin: "20px 0" }}>
+        <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
           <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
         </Row>
-        <Row className="justify-content-md-center" style={{ margin: "20px 0" }}>
+        <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
           <PokemonList pokemonList={this.state.pokemonList} />
         </Row>
-        <div>
-          <PokemonImage pokemon={this.state.pokemon} />
-        </div>
         <PokemonName pokemon={this.state.pokemon} />
+        <PokemonImage pokemon={this.state.pokemon} />
         <Tabs defaultActiveKey="stats">
           <Tab eventKey="stats" title="Stats">
             <PokemonStatsTab pokemon={this.state.pokemon} />
