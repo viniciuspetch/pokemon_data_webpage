@@ -2,6 +2,8 @@ import React from "react";
 import "./App.css";
 import { pokemonList } from "./PokeList.js";
 import Cookies from "universal-cookie";
+import Form from "react-bootstrap/Form";
+import Button from "react-bootstrap/Button";
 
 class PokemonImage extends React.Component {
   render() {
@@ -39,6 +41,20 @@ class SearchForm extends React.Component {
 
   render() {
     return (
+      <Form>
+        <Form.Group controlId="formSearch">
+          <Form.Label>Search Pokémon by name or number:</Form.Label>
+          <Form.Control
+            type="text"
+            name="pokemonName"
+            onChange={this.handleChange}
+          />
+        </Form.Group>
+        <Button variant="primary" type="submit">
+          Search
+        </Button>
+      </Form>
+      /*
       <form onSubmit={this.handleInput}>
         <label>
           Search Pokémon by name or number:
@@ -46,6 +62,7 @@ class SearchForm extends React.Component {
         </label>
         <input type="submit" value="Search" />
       </form>
+      */
     );
   }
 }
@@ -87,7 +104,7 @@ class PokemonDataTab extends React.Component {
         let url_suffix = "_(Ability)";
         let name_fixed = ability.ability.name
           .split("-")
-          .map(part => part[0].toUpperCase() + part.slice(1))
+          .map((part) => part[0].toUpperCase() + part.slice(1))
           .join(" ");
 
         return (
@@ -218,34 +235,34 @@ class PokemonMovesetTab extends React.Component {
       }
     }
     let list_levelup = moveset_levelup
-      .map(item =>
+      .map((item) =>
         item.move.name
           .split("-")
-          .map(a => a[0].toUpperCase() + a.slice(1))
+          .map((a) => a[0].toUpperCase() + a.slice(1))
           .join(" ")
       )
       .join(", ");
     let list_machine = moveset_machine
-      .map(item =>
+      .map((item) =>
         item.move.name
           .split("-")
-          .map(a => a[0].toUpperCase() + a.slice(1))
+          .map((a) => a[0].toUpperCase() + a.slice(1))
           .join(" ")
       )
       .join(", ");
     let list_egg = moveset_egg
-      .map(item =>
+      .map((item) =>
         item.move.name
           .split("-")
-          .map(a => a[0].toUpperCase() + a.slice(1))
+          .map((a) => a[0].toUpperCase() + a.slice(1))
           .join(" ")
       )
       .join(", ");
     let list_other = moveset_other
-      .map(item =>
+      .map((item) =>
         item.move.name
           .split("-")
-          .map(a => a[0].toUpperCase() + a.slice(1))
+          .map((a) => a[0].toUpperCase() + a.slice(1))
           .join(" ")
       )
       .join(", ");
@@ -292,7 +309,7 @@ class App extends React.Component {
       pokemon: null,
       currTab: 1,
       pokemonNumber: null,
-      pokemonList: this.filterPokemonList("")
+      pokemonList: this.filterPokemonList(""),
     };
     this.handleInput = this.handleInput.bind(this);
     this.handleChange = this.handleChange.bind(this);
@@ -312,7 +329,7 @@ class App extends React.Component {
       rawList = rawList.concat(pokemonList[key]);
     }
 
-    return rawList.filter(item => item.toLowerCase().includes(pokemonName));
+    return rawList.filter((item) => item.toLowerCase().includes(pokemonName));
   }
 
   handleInput(pokemonName) {
@@ -330,7 +347,7 @@ class App extends React.Component {
 
     this.setState({
       pokemonName: pokemonName,
-      pokemonList: this.filterPokemonList(pokemonName)
+      pokemonList: this.filterPokemonList(pokemonName),
     });
   }
 
@@ -346,7 +363,7 @@ class App extends React.Component {
 
     if (
       isNaN(pokemonName) &&
-      !this.state.pokemonList.find(name => {
+      !this.state.pokemonList.find((name) => {
         return name.toLowerCase().trim() === pokemonName.toLowerCase().trim();
       })
     ) {
@@ -369,14 +386,14 @@ class App extends React.Component {
     let self = this;
 
     P.getPokemonByName(pokemonName)
-      .then(function(response) {
+      .then(function (response) {
         self.setState({
           currTab: 1,
           pokemon: response,
-          pokemonNumber: response.game_indices[0].game_index
+          pokemonNumber: response.game_indices[0].game_index,
         });
       })
-      .catch(function(error) {
+      .catch(function (error) {
         self.setState({ pokemon: null });
       });
   }
@@ -391,15 +408,15 @@ class App extends React.Component {
 
   setTab(e) {
     this.setState({
-      currTab: parseInt(e.target.value)
+      currTab: parseInt(e.target.value),
     });
   }
 
   render() {
     const cookies = new Cookies();
     if (!cookies.get("lastPokemons")) {
-      cookies.set("lastPokemons", [])
-    }    
+      cookies.set("lastPokemons", []);
+    }
     let lastPokemons = Object.values(cookies.get("lastPokemons"))
       .reverse()
       .map((value, index) => {
