@@ -16,7 +16,7 @@ import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import InputGroup from "react-bootstrap/InputGroup";
 import Card from "react-bootstrap/Card";
-import ButtonGroup from 'react-bootstrap/ButtonGroup'
+import ButtonGroup from "react-bootstrap/ButtonGroup";
 
 class PokemonImage extends React.Component {
   render() {
@@ -317,16 +317,20 @@ function PokemonList(props) {
 
   return (
     <>
-      <Button
-        onClick={() => setOpen(!open)}
-        aria-controls="example-collapse-text"
-        aria-expanded={open}
-      >
-        Show/Hide Pokémon List
-      </Button>
-      <Collapse in={open}>
-        <div id="example-collapse-text">{props.pokemonList}</div>
-      </Collapse>
+      <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
+        <Button
+          onClick={() => setOpen(!open)}
+          aria-controls="example-collapse-text"
+          aria-expanded={open}
+        >
+          Show/Hide Pokémon List
+        </Button>
+      </Row>
+      <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
+        <Collapse in={open}>
+          <div id="example-collapse-text">{props.pokemonList}</div>
+        </Collapse>
+      </Row>
     </>
   );
 }
@@ -476,9 +480,7 @@ class App extends React.Component {
         <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
           <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
         </Row>
-        <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
-          <PokemonList pokemonList={this.state.pokemonList} />
-        </Row>
+        <PokemonList pokemonList={this.state.pokemonList} />
         {scrollButtons}
         <PokemonName pokemon={this.state.pokemon} />
         <PokemonImage pokemon={this.state.pokemon} />
