@@ -1,10 +1,17 @@
 import React from "react";
 import "./App.css";
+import { useState } from "react";
+
 import { pokemonList } from "./PokeList.js";
 import Cookies from "universal-cookie";
+
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import ListGroup from "react-bootstrap/ListGroup";
+import Collapse from "react-bootstrap/Collapse";
+import Container from "react-bootstrap/Container";
+import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 
 class PokemonImage extends React.Component {
   render() {
@@ -292,10 +299,20 @@ class PokemonMovesetTab extends React.Component {
 }
 
 function PokemonList(props) {
+  const [open, setOpen] = useState(false);
+
   return (
     <>
-      {props.pokemonList}
-      <br />
+      <Button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
+      >
+        Show/Hide Pokémon List
+      </Button>
+      <Collapse in={open}>
+        <div id="example-collapse-text">{props.pokemonList}</div>
+      </Collapse>
     </>
   );
 }
@@ -427,11 +444,7 @@ class App extends React.Component {
         if (typeof value == "number") {
           value = <i>{"Pokémon nº " + value}</i>;
         }
-        return (
-          <ListGroup.Item key={index}>
-            {value}
-          </ListGroup.Item>
-        );
+        return <ListGroup.Item key={index}>{value}</ListGroup.Item>;
       });
     let currTab = null;
     switch (this.state.currTab) {
@@ -459,11 +472,16 @@ class App extends React.Component {
     }
 
     return (
-      <div className="App">
+      <Container className="App">
         {scrollButtons}
         <ListGroup>{lastPokemons}</ListGroup>
-        <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
-        <PokemonList pokemonList={this.state.pokemonList} />
+        <Row className="justify-content-md-center" style={{margin: "20px 0"}}>
+          <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
+        </Row>
+        <Row className="justify-content-md-center" style={{margin: "20px 0"}}>
+          <PokemonList pokemonList={this.state.pokemonList} />
+        </Row>
+
         <PokemonName pokemon={this.state.pokemon} />
         <button value="1" onClick={this.setTab}>
           Data
@@ -478,7 +496,7 @@ class App extends React.Component {
           <PokemonImage pokemon={this.state.pokemon} />
         </div>
         <div>{currTab}</div>
-      </div>
+      </Container>
     );
   }
 }
