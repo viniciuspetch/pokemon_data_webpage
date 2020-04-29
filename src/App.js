@@ -317,7 +317,7 @@ function PokemonList(props) {
 
   return (
     <>
-      <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
+      <Row className="justify-content-md-center" style={{ margin: "10px 0 0 0" }}>
         <Button
           onClick={() => setOpen(!open)}
           aria-controls="example-collapse-text"
@@ -326,7 +326,7 @@ function PokemonList(props) {
           Show/Hide Pokémon List
         </Button>
       </Row>
-      <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
+      <Row className="justify-content-md-center" style={{ margin: "0 0 10px 0" }}>
         <Collapse in={open}>
           <div id="example-collapse-text">{props.pokemonList}</div>
         </Collapse>
@@ -472,6 +472,13 @@ class App extends React.Component {
           <Button onClick={this.getNextPokemon}>Next</Button>
         </ButtonGroup>
       );
+    } else {
+      scrollButtons = (
+        <ButtonGroup aria-label="Previous and next Pokémon">
+          <Button disabled>Previous</Button>
+          <Button disabled>Next</Button>
+        </ButtonGroup>
+      );
     }
 
     return (
@@ -482,7 +489,7 @@ class App extends React.Component {
         </Row>
         <PokemonList pokemonList={this.state.pokemonList} />
         {scrollButtons}
-        <PokemonName pokemon={this.state.pokemon} />
+        <PokemonName pokemon={this.state.pokemon} style={{ margin: "10px 0" }}/>
         <PokemonImage pokemon={this.state.pokemon} />
         <Tabs defaultActiveKey="stats" style={{ "margin-bottom": "10px" }}>
           <Tab eventKey="stats" title="Stats">
