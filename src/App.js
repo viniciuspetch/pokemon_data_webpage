@@ -49,7 +49,7 @@ class SearchForm extends React.Component {
 
   render() {
     return (
-      <Form>
+      <Form onSubmit={this.handleInput}>
         <Form.Group controlId="formSearch">
           <Form.Label>Search Pokémon by name or number:</Form.Label>
           <Form.Control
@@ -57,10 +57,10 @@ class SearchForm extends React.Component {
             name="pokemonName"
             onChange={this.handleChange}
           />
+          <Button variant="primary" type="submit">
+            Search
+          </Button>
         </Form.Group>
-        <Button variant="primary" type="submit">
-          Search
-        </Button>
       </Form>
       /*
       <form onSubmit={this.handleInput}>
@@ -475,10 +475,10 @@ class App extends React.Component {
       <Container className="App">
         {scrollButtons}
         <ListGroup>{lastPokemons}</ListGroup>
-        <Row className="justify-content-md-center" style={{margin: "20px 0"}}>
+        <Row className="justify-content-md-center" style={{ margin: "20px 0" }}>
           <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
         </Row>
-        <Row className="justify-content-md-center" style={{margin: "20px 0"}}>
+        <Row className="justify-content-md-center" style={{ margin: "20px 0" }}>
           <PokemonList pokemonList={this.state.pokemonList} />
         </Row>
 
