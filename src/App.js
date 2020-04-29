@@ -14,6 +14,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
+import InputGroup from "react-bootstrap/InputGroup";
 
 class PokemonImage extends React.Component {
   render() {
@@ -56,19 +57,18 @@ class SearchForm extends React.Component {
           <Form.Label column sm={12}>
             Search Pokémon by name or number:
           </Form.Label>
-          <Col>
+          <InputGroup>
             <Form.Control
               type="text"
               name="pokemonName"
               onChange={this.handleChange}
             />
-          </Col>
-
-          <Col sm="auto">
-            <Button variant="primary" type="submit">
-              Search
-            </Button>
-          </Col>
+            <InputGroup.Append>
+              <Button variant="primary" type="submit">
+                Search
+              </Button>
+            </InputGroup.Append>
+          </InputGroup>
         </Form.Group>
       </Form>
     );
@@ -480,7 +480,7 @@ class App extends React.Component {
         </Row>
         <PokemonName pokemon={this.state.pokemon} />
         <PokemonImage pokemon={this.state.pokemon} />
-        <Tabs defaultActiveKey="stats">
+        <Tabs defaultActiveKey="stats" style={{ "margin-bottom": "10px" }}>
           <Tab eventKey="stats" title="Stats">
             <PokemonStatsTab pokemon={this.state.pokemon} />
           </Tab>
