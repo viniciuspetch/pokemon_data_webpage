@@ -52,16 +52,23 @@ class SearchForm extends React.Component {
   render() {
     return (
       <Form onSubmit={this.handleInput}>
-        <Form.Group controlId="formSearch">
-          <Form.Label>Search Pokémon by name or number:</Form.Label>
-          <Form.Control
-            type="text"
-            name="pokemonName"
-            onChange={this.handleChange}
-          />
-          <Button variant="primary" type="submit">
-            Search
-          </Button>
+        <Form.Group as={Row} controlId="formSearch">
+          <Form.Label column sm={12}>
+            Search Pokémon by name or number:
+          </Form.Label>
+          <Col>
+            <Form.Control
+              type="text"
+              name="pokemonName"
+              onChange={this.handleChange}
+            />
+          </Col>
+
+          <Col sm="auto">
+            <Button variant="primary" type="submit">
+              Search
+            </Button>
+          </Col>
         </Form.Group>
       </Form>
     );
@@ -109,14 +116,14 @@ class PokemonDataTab extends React.Component {
           .join(" ");
 
         return (
-          <a
+          <ListGroup.Item
+            action
             key={index.toString()}
             href={url_prefix + name_fixed.replace(" ", "_") + url_suffix}
+            className="fakeLink"
           >
-            <div className="listItem">
-              {name_fixed + (ability.is_hidden ? " (Hidden)" : "")}
-            </div>
-          </a>
+            {name_fixed + (ability.is_hidden ? " (Hidden)" : "")}
+          </ListGroup.Item>
         );
       });
     }
@@ -134,9 +141,14 @@ class PokemonDataTab extends React.Component {
           type.type.name[0].toUpperCase() + type.type.name.slice(1);
 
         return (
-          <a key={index.toString()} href={url_prefix + name_fixed + url_suffix}>
-            <div className="listItem">{name_fixed}</div>
-          </a>
+          <ListGroup.Item
+            action
+            key={index.toString()}
+            href={url_prefix + name_fixed + url_suffix}
+            className="fakeLink"
+          >
+            {name_fixed}
+          </ListGroup.Item>
         );
       });
     }
@@ -145,14 +157,21 @@ class PokemonDataTab extends React.Component {
   }
 
   render() {
-    let abilitiesList = this.getAbilities();
-    let typesList = this.getTypes();
-
     return (
+      <Row>
+        <Col>
+          <ListGroup>{this.getAbilities()}</ListGroup>
+        </Col>
+        <Col>
+          <ListGroup>{this.getTypes()}</ListGroup>
+        </Col>
+      </Row>
+      /*
       <div className="lists">
         <div className="list abilitiesList">{abilitiesList}</div>
         <div className="list typesList">{typesList}</div>
       </div>
+      */
     );
   }
 }

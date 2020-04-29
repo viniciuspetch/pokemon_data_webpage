@@ -40,3 +40,9 @@
 html {
   overflow-y: scroll;
 }
+
+.fakeLink {
+  cursor: pointer;
+  color: blue;
+  text-decoration: underline;
+}
