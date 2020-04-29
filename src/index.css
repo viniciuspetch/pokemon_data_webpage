@@ -17,32 +17,6 @@ code {
   margin: auto;
   padding: 30px;
   text-align: center;
-  border: 1px solid black;
-}
-
-.lists {
-  margin: 3px;
-  border: 1px solid black;
-}
-
-.list {
-  width: 40%;
-  display: inline-block;
-  margin: 20px;
-  border: 1px solid black;
-}
-
-.listItem {
-  margin: 5px;
-  padding: 5px;
-  border: 1px solid grey;
-  background-color: #eeeeee;
-  max-width: 90%;
-}
-
-.moveset_group {
-  border: 1px solid black;
-  margin: 0 0 20px 0;
 }
 
 .statbox {
