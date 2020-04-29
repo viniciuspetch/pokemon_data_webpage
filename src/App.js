@@ -15,6 +15,7 @@ import Col from "react-bootstrap/Col";
 import Tabs from "react-bootstrap/Tabs";
 import Tab from "react-bootstrap/Tab";
 import InputGroup from "react-bootstrap/InputGroup";
+import Card from "react-bootstrap/Card";
 
 class PokemonImage extends React.Component {
   render() {
@@ -229,6 +230,18 @@ class PokemonStatsTab extends React.Component {
   }
 }
 
+function MovesetCard(props) {
+  return (
+    <Card className="movesetCard">
+      <Card.Body>
+        <Card.Title>{props.title}</Card.Title>
+        <hr />
+        <Card.Text>{props.text}</Card.Text>
+      </Card.Body>
+    </Card>
+  );
+}
+
 class PokemonMovesetTab extends React.Component {
   render() {
     if (this.props.pokemon == null) {
@@ -288,24 +301,12 @@ class PokemonMovesetTab extends React.Component {
       .join(", ");
 
     return (
-      <div>
-        <div className="moveset_group">
-          <h3>Level-up</h3>
-          <p>{list_levelup}</p>
-        </div>
-        <div className="moveset_group">
-          <h3>TMs and HMs</h3>
-          <p>{list_machine}</p>
-        </div>
-        <div className="moveset_group">
-          <h3>Egg moves</h3>
-          <p>{list_egg}</p>
-        </div>
-        <div className="moveset_group">
-          <h3>Other means</h3>
-          <p>{list_other}</p>
-        </div>
-      </div>
+      <>
+        <MovesetCard title={"Level-up"} text={list_levelup} />
+        <MovesetCard title={"TMs and HMs"} text={list_machine} />
+        <MovesetCard title={"Egg moves"} text={list_egg} />
+        <MovesetCard title={"Other means"} text={list_other} />
+      </>
     );
   }
 }

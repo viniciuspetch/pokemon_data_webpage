@@ -46,3 +46,7 @@ html {
   color: blue;
   text-decoration: underline;
 }
+
+.movesetCard {
+  margin: 10px 0;
+}
