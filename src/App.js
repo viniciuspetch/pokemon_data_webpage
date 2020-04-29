@@ -12,6 +12,8 @@ import Collapse from "react-bootstrap/Collapse";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
+import Tabs from "react-bootstrap/Tabs";
+import Tab from "react-bootstrap/Tab";
 
 class PokemonImage extends React.Component {
   render() {
@@ -62,15 +64,6 @@ class SearchForm extends React.Component {
           </Button>
         </Form.Group>
       </Form>
-      /*
-      <form onSubmit={this.handleInput}>
-        <label>
-          Search Pokémon by name or number:
-          <input type="text" name="pokemonName" onChange={this.handleChange} />
-        </label>
-        <input type="submit" value="Search" />
-      </form>
-      */
     );
   }
 }
@@ -481,21 +474,21 @@ class App extends React.Component {
         <Row className="justify-content-md-center" style={{ margin: "20px 0" }}>
           <PokemonList pokemonList={this.state.pokemonList} />
         </Row>
-
-        <PokemonName pokemon={this.state.pokemon} />
-        <button value="1" onClick={this.setTab}>
-          Data
-        </button>
-        <button value="2" onClick={this.setTab}>
-          Stats
-        </button>
-        <button value="3" onClick={this.setTab}>
-          Moveset
-        </button>
         <div>
           <PokemonImage pokemon={this.state.pokemon} />
         </div>
-        <div>{currTab}</div>
+        <PokemonName pokemon={this.state.pokemon} />
+        <Tabs defaultActiveKey="stats">
+          <Tab eventKey="stats" title="Stats">
+            <PokemonStatsTab pokemon={this.state.pokemon} />
+          </Tab>
+          <Tab eventKey="data" title="Data">
+            <PokemonDataTab pokemon={this.state.pokemon} />
+          </Tab>
+          <Tab eventKey="moveset" title="Moveset">
+            <PokemonMovesetTab pokemon={this.state.pokemon} />
+          </Tab>
+        </Tabs>
       </Container>
     );
   }
