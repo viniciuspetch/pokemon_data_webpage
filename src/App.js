@@ -24,7 +24,7 @@ function PokemonImage(props) {
       <img src={props.pokemon.sprites.front_default} alt="Pokémon sprite" />
     );
   }
-  return null;
+  return <p>No Pokémon found</p>;
 }
 
 class SearchForm extends React.Component {
@@ -51,7 +51,7 @@ class SearchForm extends React.Component {
       <Form onSubmit={this.handleInput}>
         <Form.Group as={Row} controlId="formSearch">
           <Form.Label column sm={12}>
-            Search Pokémon by name or number:
+            Enter Pokémon name or nº and press "Search":
           </Form.Label>
           <InputGroup>
             <Form.Control
