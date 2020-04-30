@@ -162,6 +162,22 @@ class PokemonDataTab extends React.Component {
   }
 }
 
+function PokemonSpeciesDataTab(props) {
+  if (!props.pokemon) {
+    return null;
+  }
+  return (
+    <>
+      <hr />
+      <p>Gender Rate: {props.pokemon.gender_rate}</p>
+      <p>Capture Rate: {props.pokemon.capture_rate}</p>
+      <p>Base Happiness: {props.pokemon.base_happiness}</p>
+      {props.pokemon.is_baby ? <p>Is a baby Pokémon</p> : ""}
+      <p>Growth Rate: {props.pokemon.growth_rate.name}</p>
+    </>
+  );
+}
+
 function PokemonStatsTab(props) {
   if (!props.pokemon) {
     return null;
@@ -325,9 +341,9 @@ function setPrevSearch(pokemonName) {
     console.log("here");
   }
   for (let i = 4; i > 0; i--) {
-    if (prevSearchList[i-1]) {
+    if (prevSearchList[i - 1]) {
       prevSearchList[i] = prevSearchList[i - 1];
-    }    
+    }
   }
   prevSearchList[0] = pokemonName;
   cookies.set("prevSearchList", prevSearchList);
@@ -428,8 +444,8 @@ class App extends React.Component {
     let self = this;
     P.getPokemonByName(pokemonName)
       .then(function (response) {
+        console.log(response);
         self.setState({
-          currTab: 1,
           pokemon: response,
           pokemonNumber: response.game_indices[0].game_index,
         });
@@ -437,6 +453,12 @@ class App extends React.Component {
       .catch(function (error) {
         self.setState({ pokemon: null });
       });
+    P.getPokemonSpeciesByName(pokemonName).then(function (response) {
+      console.log(response);
+      self.setState({
+        pokemonSpecies: response,
+      });
+    });
   }
 
   getPreviousPokemon() {
@@ -502,6 +524,7 @@ class App extends React.Component {
           </Tab>
           <Tab eventKey="data" title="Data">
             <PokemonDataTab pokemon={this.state.pokemon} />
+            <PokemonSpeciesDataTab pokemon={this.state.pokemonSpecies} />
           </Tab>
           <Tab eventKey="moveset" title="Moveset">
             <PokemonMovesetTab pokemon={this.state.pokemon} />
