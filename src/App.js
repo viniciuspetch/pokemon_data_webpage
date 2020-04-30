@@ -317,6 +317,36 @@ function PokemonList(props) {
   );
 }
 
+function setPrevSearch(pokemonName) {
+  verifyPrevSearch();
+  const cookies = new Cookies();
+  let prevSearchList = cookies.get("prevSearchList");
+  if (!prevSearchList) {
+    console.log("here");
+  }
+  for (let i = 4; i > 0; i--) {
+    if (prevSearchList[i-1]) {
+      prevSearchList[i] = prevSearchList[i - 1];
+    }    
+  }
+  prevSearchList[0] = pokemonName;
+  cookies.set("prevSearchList", prevSearchList);
+  console.log(prevSearchList);
+}
+
+function verifyPrevSearch() {
+  const cookies = new Cookies();
+  if (!cookies.get("prevSearchList")) {
+    cookies.set("prevSearchList", []);
+  }
+}
+
+function getPrevSearch() {
+  verifyPrevSearch();
+  const cookies = new Cookies();
+  return cookies.get("prevSearchList");
+}
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -390,14 +420,7 @@ class App extends React.Component {
       return null;
     }
     // Set new Pokémon search on memory
-    const cookies = new Cookies();
-    let lastPokemons = cookies.get("lastPokemons");
-    for (let i = 0; i < 4; i++) {
-      lastPokemons[i] = lastPokemons[i + 1];
-    }
-    lastPokemons[4] = pokemonName;
-    cookies.set("lastPokemons", lastPokemons);
-    console.log(lastPokemons);
+    setPrevSearch(pokemonName);
     // Search Pokémon
     this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
@@ -431,12 +454,7 @@ class App extends React.Component {
   }
 
   render() {
-    // Get Pokémon memory
-    const cookies = new Cookies();
-    if (!cookies.get("lastPokemons")) {
-      cookies.set("lastPokemons", []);
-    }
-    let lastPokemons = Object.values(cookies.get("lastPokemons"))
+    let lastPokemons = Object.values(getPrevSearch())
       .reverse()
       .map((value, index) => {
         if (typeof value == "string") {
