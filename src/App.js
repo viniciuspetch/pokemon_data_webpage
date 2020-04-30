@@ -18,19 +18,13 @@ import InputGroup from "react-bootstrap/InputGroup";
 import Card from "react-bootstrap/Card";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
 
-class PokemonImage extends React.Component {
-  render() {
-    if (this.props.pokemon != null) {
-      return (
-        <img
-          src={this.props.pokemon.sprites.front_default}
-          alt="Pokémon sprite"
-        />
-      );
-    } else {
-      return null;
-    }
+function PokemonImage(props) {
+  if (props.pokemon) {
+    return (
+      <img src={props.pokemon.sprites.front_default} alt="Pokémon sprite" />
+    );
   }
+  return null;
 }
 
 class SearchForm extends React.Component {
@@ -77,25 +71,21 @@ class SearchForm extends React.Component {
   }
 }
 
-class PokemonName extends React.Component {
-  render() {
-    if (this.props.pokemon == null) {
-      return null;
-    } else {
-      let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
-      let url_suffix = "_(Pokémon)";
-      let name_uppercased =
-        this.props.pokemon.name[0].toUpperCase() +
-        this.props.pokemon.name.slice(1);
-      return (
-        <div>
-          <a href={url_prefix + name_uppercased + url_suffix}>
-            nº {this.props.pokemon.id} - {name_uppercased}
-          </a>
-        </div>
-      );
-    }
+function PokemonName(props) {
+  if (!props.pokemon) {
+    return null;
   }
+  let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
+  let url_suffix = "_(Pokémon)";
+  let name_uppercased =
+    props.pokemon.name[0].toUpperCase() + props.pokemon.name.slice(1);
+  return (
+    <div>
+      <a href={url_prefix + name_uppercased + url_suffix}>
+        nº {props.pokemon.id} - {name_uppercased}
+      </a>
+    </div>
+  );
 }
 
 class PokemonDataTab extends React.Component {
@@ -108,7 +98,7 @@ class PokemonDataTab extends React.Component {
 
   getAbilities() {
     let abilitiesList = [];
-    if (this.props.pokemon != null) {
+    if (this.props.pokemon) {
       abilitiesList = this.props.pokemon.abilities.map((ability, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
         let url_suffix = "_(Ability)";
@@ -135,7 +125,7 @@ class PokemonDataTab extends React.Component {
 
   getTypes() {
     let typesList = [];
-    if (this.props.pokemon != null) {
+    if (this.props.pokemon) {
       typesList = this.props.pokemon.types.map((type, index) => {
         let url_prefix = "https://bulbapedia.bulbagarden.net/wiki/";
         let url_suffix = "_(type)";
@@ -168,67 +158,58 @@ class PokemonDataTab extends React.Component {
           <ListGroup>{this.getTypes()}</ListGroup>
         </Col>
       </Row>
-      /*
-      <div className="lists">
-        <div className="list abilitiesList">{abilitiesList}</div>
-        <div className="list typesList">{typesList}</div>
-      </div>
-      */
     );
   }
 }
 
-class PokemonStatsTab extends React.Component {
-  render() {
-    if (this.props.pokemon) {
-      return (
-        <>
-          <p style={{ margin: "5px 0" }}>
-            HP: {this.props.pokemon.stats[5].base_stat}
-          </p>
-          <div
-            className="statbox"
-            style={{ width: this.props.pokemon.stats[5].base_stat }}
-          ></div>
-          <p style={{ margin: "5px 0" }}>
-            Attack: {this.props.pokemon.stats[4].base_stat}
-          </p>
-          <div
-            className="statbox"
-            style={{ width: this.props.pokemon.stats[4].base_stat }}
-          ></div>
-          <p style={{ margin: "5px 0" }}>
-            Defense: {this.props.pokemon.stats[3].base_stat}
-          </p>
-          <div
-            className="statbox"
-            style={{ width: this.props.pokemon.stats[3].base_stat }}
-          ></div>
-          <p style={{ margin: "5px 0" }}>
-            Special Attack: {this.props.pokemon.stats[2].base_stat}
-          </p>
-          <div
-            className="statbox"
-            style={{ width: this.props.pokemon.stats[2].base_stat }}
-          ></div>
-          <p style={{ margin: "5px 0" }}>
-            Special Defense: {this.props.pokemon.stats[1].base_stat}
-          </p>
-          <div
-            className="statbox"
-            style={{ width: this.props.pokemon.stats[1].base_stat }}
-          ></div>
-          <p style={{ margin: "5px 0" }}>
-            Speed: {this.props.pokemon.stats[0].base_stat}
-          </p>
-          <div
-            className="statbox"
-            style={{ width: this.props.pokemon.stats[0].base_stat }}
-          ></div>
-        </>
-      );
-    } else return null;
+function PokemonStatsTab(props) {
+  if (!props.pokemon) {
+    return null;
   }
+  return (
+    <>
+      <p style={{ margin: "5px 0" }}>HP: {props.pokemon.stats[5].base_stat}</p>
+      <div
+        className="statbox"
+        style={{ width: props.pokemon.stats[5].base_stat }}
+      ></div>
+      <p style={{ margin: "5px 0" }}>
+        Attack: {props.pokemon.stats[4].base_stat}
+      </p>
+      <div
+        className="statbox"
+        style={{ width: props.pokemon.stats[4].base_stat }}
+      ></div>
+      <p style={{ margin: "5px 0" }}>
+        Defense: {props.pokemon.stats[3].base_stat}
+      </p>
+      <div
+        className="statbox"
+        style={{ width: props.pokemon.stats[3].base_stat }}
+      ></div>
+      <p style={{ margin: "5px 0" }}>
+        Special Attack: {props.pokemon.stats[2].base_stat}
+      </p>
+      <div
+        className="statbox"
+        style={{ width: props.pokemon.stats[2].base_stat }}
+      ></div>
+      <p style={{ margin: "5px 0" }}>
+        Special Defense: {props.pokemon.stats[1].base_stat}
+      </p>
+      <div
+        className="statbox"
+        style={{ width: props.pokemon.stats[1].base_stat }}
+      ></div>
+      <p style={{ margin: "5px 0" }}>
+        Speed: {props.pokemon.stats[0].base_stat}
+      </p>
+      <div
+        className="statbox"
+        style={{ width: props.pokemon.stats[0].base_stat }}
+      ></div>
+    </>
+  );
 }
 
 function MovesetCard(props) {
@@ -243,81 +224,79 @@ function MovesetCard(props) {
   );
 }
 
-class PokemonMovesetTab extends React.Component {
-  render() {
-    if (this.props.pokemon == null) {
-      return null;
-    }
-    let moveset_machine = [];
-    let moveset_levelup = [];
-    let moveset_egg = [];
-    let moveset_other = [];
-    for (let i in this.props.pokemon.moves) {
-      let move = this.props.pokemon.moves[i];
-      if (move.version_group_details[0].move_learn_method.name === "machine") {
-        moveset_machine.push(move);
-      } else if (
-        move.version_group_details[0].move_learn_method.name === "egg"
-      ) {
-        moveset_egg.push(move);
-      } else if (
-        move.version_group_details[0].move_learn_method.name === "level-up"
-      ) {
-        moveset_levelup.push(move);
-      } else {
-        moveset_other.push(move);
-      }
-    }
-    let list_levelup = moveset_levelup
-      .map((item) =>
-        item.move.name
-          .split("-")
-          .map((a) => a[0].toUpperCase() + a.slice(1))
-          .join(" ")
-      )
-      .join(", ");
-    let list_machine = moveset_machine
-      .map((item) =>
-        item.move.name
-          .split("-")
-          .map((a) => a[0].toUpperCase() + a.slice(1))
-          .join(" ")
-      )
-      .join(", ");
-    let list_egg = moveset_egg
-      .map((item) =>
-        item.move.name
-          .split("-")
-          .map((a) => a[0].toUpperCase() + a.slice(1))
-          .join(" ")
-      )
-      .join(", ");
-    let list_other = moveset_other
-      .map((item) =>
-        item.move.name
-          .split("-")
-          .map((a) => a[0].toUpperCase() + a.slice(1))
-          .join(" ")
-      )
-      .join(", ");
-
-    return (
-      <>
-        <MovesetCard title={"Level-up"} text={list_levelup} />
-        <MovesetCard title={"TMs and HMs"} text={list_machine} />
-        <MovesetCard title={"Egg moves"} text={list_egg} />
-        <MovesetCard title={"Other means"} text={list_other} />
-      </>
-    );
+function PokemonMovesetTab(props) {
+  if (!props.pokemon) {
+    return null;
   }
+  let moveset_machine = [];
+  let moveset_levelup = [];
+  let moveset_egg = [];
+  let moveset_other = [];
+  for (let i in props.pokemon.moves) {
+    let move = props.pokemon.moves[i];
+    if (move.version_group_details[0].move_learn_method.name === "machine") {
+      moveset_machine.push(move);
+    } else if (move.version_group_details[0].move_learn_method.name === "egg") {
+      moveset_egg.push(move);
+    } else if (
+      move.version_group_details[0].move_learn_method.name === "level-up"
+    ) {
+      moveset_levelup.push(move);
+    } else {
+      moveset_other.push(move);
+    }
+  }
+  let list_levelup = moveset_levelup
+    .map((item) =>
+      item.move.name
+        .split("-")
+        .map((a) => a[0].toUpperCase() + a.slice(1))
+        .join(" ")
+    )
+    .join(", ");
+  let list_machine = moveset_machine
+    .map((item) =>
+      item.move.name
+        .split("-")
+        .map((a) => a[0].toUpperCase() + a.slice(1))
+        .join(" ")
+    )
+    .join(", ");
+  let list_egg = moveset_egg
+    .map((item) =>
+      item.move.name
+        .split("-")
+        .map((a) => a[0].toUpperCase() + a.slice(1))
+        .join(" ")
+    )
+    .join(", ");
+  let list_other = moveset_other
+    .map((item) =>
+      item.move.name
+        .split("-")
+        .map((a) => a[0].toUpperCase() + a.slice(1))
+        .join(" ")
+    )
+    .join(", ");
+
+  return (
+    <>
+      <MovesetCard title={"Level-up"} text={list_levelup} />
+      <MovesetCard title={"TMs and HMs"} text={list_machine} />
+      <MovesetCard title={"Egg moves"} text={list_egg} />
+      <MovesetCard title={"Other means"} text={list_other} />
+    </>
+  );
 }
 
 function PokemonList(props) {
   const [open, setOpen] = useState(false);
-
   return (
     <>
-      <Row className="justify-content-md-center" style={{ margin: "10px 0 0 0" }}>
+      <Row
+        className="justify-content-md-center"
+        style={{ margin: "10px 0 0 0" }}
+      >
         <Button
           onClick={() => setOpen(!open)}
           aria-controls="example-collapse-text"
@@ -326,7 +305,10 @@ function PokemonList(props) {
           Show/Hide Pokémon List
         </Button>
       </Row>
-      <Row className="justify-content-md-center" style={{ margin: "0 0 10px 0" }}>
+      <Row
+        className="justify-content-md-center"
+        style={{ margin: "0 0 10px 0" }}
+      >
         <Collapse in={open}>
           <div id="example-collapse-text">{props.pokemonList}</div>
         </Collapse>
@@ -338,7 +320,6 @@ function PokemonList(props) {
 class App extends React.Component {
   constructor(props) {
     super(props);
-
     this.state = {
       pokemonName: "",
       searchResult: "",
@@ -364,7 +345,6 @@ class App extends React.Component {
     for (let key in pokemonList) {
       rawList = rawList.concat(pokemonList[key]);
     }
-
     return rawList.filter((item) => item.toLowerCase().includes(pokemonName));
   }
 
@@ -372,7 +352,6 @@ class App extends React.Component {
     if (pokemonName) {
       pokemonName = pokemonName.toLowerCase().trim();
     }
-
     this.searchPokemon(pokemonName);
   }
 
@@ -380,7 +359,6 @@ class App extends React.Component {
     if (pokemonName) {
       pokemonName = pokemonName.toLowerCase().trim();
     }
-
     this.setState({
       pokemonName: pokemonName,
       pokemonList: this.filterPokemonList(pokemonName),
@@ -396,7 +374,6 @@ class App extends React.Component {
       }
     }
     console.log("Pokemon searched: " + pokemonName);
-
     if (
       isNaN(pokemonName) &&
       !this.state.pokemonList.find((name) => {
@@ -406,7 +383,7 @@ class App extends React.Component {
       console.log("Search blocked by list");
       return null;
     }
-
+    // Set new Pokémon search on memory
     const cookies = new Cookies();
     let lastPokemons = cookies.get("lastPokemons");
     for (let i = 0; i < 4; i++) {
@@ -415,12 +392,11 @@ class App extends React.Component {
     lastPokemons[4] = pokemonName;
     cookies.set("lastPokemons", lastPokemons);
     console.log(lastPokemons);
-
+    // Search Pokémon
     this.setState({ pokemon: null });
     const Pokedex = require("pokeapi-js-wrapper");
     const P = new Pokedex.Pokedex();
     let self = this;
-
     P.getPokemonByName(pokemonName)
       .then(function (response) {
         self.setState({
@@ -449,6 +425,7 @@ class App extends React.Component {
   }
 
   render() {
+    // Get Pokémon memory
     const cookies = new Cookies();
     if (!cookies.get("lastPokemons")) {
       cookies.set("lastPokemons", []);
@@ -464,6 +441,7 @@ class App extends React.Component {
         }
         return <ListGroup.Item key={index}>{value}</ListGroup.Item>;
       });
+    // Set scroll buttons
     let scrollButtons = null;
     if (this.state.pokemon) {
       scrollButtons = (
@@ -489,7 +467,10 @@ class App extends React.Component {
         </Row>
         <PokemonList pokemonList={this.state.pokemonList} />
         {scrollButtons}
-        <PokemonName pokemon={this.state.pokemon} style={{ margin: "10px 0" }}/>
+        <PokemonName
+          pokemon={this.state.pokemon}
+          style={{ margin: "10px 0" }}
+        />
         <PokemonImage pokemon={this.state.pokemon} />
         <Tabs defaultActiveKey="stats" style={{ "margin-bottom": "10px" }}>
           <Tab eventKey="stats" title="Stats">
