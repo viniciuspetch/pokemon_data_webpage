@@ -366,12 +366,18 @@ class App extends React.Component {
   }
 
   searchPokemon(pokemonName) {
-    if (pokemonName != null) {
+    console.log(pokemonName);
+    if (pokemonName) {
+      console.log("pokemonName is valid");
       if (!isNaN(pokemonName)) {
+        console.log("It's a number");
         pokemonName = parseInt(pokemonName);
       } else {
+        console.log("It's a word");
         pokemonName = pokemonName.toLowerCase();
       }
+    } else {
+      return null;
     }
     console.log("Pokemon searched: " + pokemonName);
     if (
@@ -472,7 +478,7 @@ class App extends React.Component {
           style={{ margin: "10px 0" }}
         />
         <PokemonImage pokemon={this.state.pokemon} />
-        <Tabs defaultActiveKey="stats" style={{ "marginBottom": "10px" }}>
+        <Tabs defaultActiveKey="stats" style={{ marginBottom: "10px" }}>
           <Tab eventKey="stats" title="Stats">
             <PokemonStatsTab pokemon={this.state.pokemon} />
           </Tab>
