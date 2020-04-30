@@ -472,7 +472,7 @@ class App extends React.Component {
           style={{ margin: "10px 0" }}
         />
         <PokemonImage pokemon={this.state.pokemon} />
-        <Tabs defaultActiveKey="stats" style={{ "margin-bottom": "10px" }}>
+        <Tabs defaultActiveKey="stats" style={{ "marginBottom": "10px" }}>
           <Tab eventKey="stats" title="Stats">
             <PokemonStatsTab pokemon={this.state.pokemon} />
           </Tab>
