@@ -478,14 +478,28 @@ class App extends React.Component {
   render() {
     let lastPokemons = Object.values(getPrevSearch())
       .reverse()
-      .map((value, index) => {
-        if (typeof value == "string") {
-          value = value[0].toUpperCase() + value.slice(1);
+      .map((origValue, index) => {
+        var value;
+        if (typeof origValue == "string") {
+          value = origValue[0].toUpperCase() + origValue.slice(1);
         }
-        if (typeof value == "number") {
-          value = <i>{"Pokémon nº " + value}</i>;
+        if (typeof origValue == "number") {
+          value = <i>{"Pokémon nº " + origValue}</i>;
+          origValue = origValue.toString();
         }
-        return <ListGroup.Item key={index}>{value}</ListGroup.Item>;
+        return (
+          <ListGroup.Item
+            className="fakeLink"
+            action
+            onClick={() => {
+              this.handleChange(origValue);
+              this.handleInput(origValue);
+            }}
+            key={index}
+          >
+            {value}
+          </ListGroup.Item>
+        );
       });
     // Set scroll buttons
     let scrollButtons = null;
