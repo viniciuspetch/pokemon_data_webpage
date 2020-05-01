@@ -307,6 +307,11 @@ function PokemonMovesetTab(props) {
 
 function PokemonList(props) {
   const [open, setOpen] = useState(false);
+  var pokemonString = "";
+  for (var i in props.pokemonList) {
+    pokemonString += props.pokemonList[i] + ", ";
+  }
+  pokemonString = pokemonString.slice(0, pokemonString.length-2)
   return (
     <>
       <Row
@@ -326,7 +331,7 @@ function PokemonList(props) {
         style={{ margin: "0 0 10px 0" }}
       >
         <Collapse in={open}>
-          <div id="example-collapse-text">{props.pokemonList}</div>
+          <div id="example-collapse-text">{pokemonString}</div>
         </Collapse>
       </Row>
     </>
