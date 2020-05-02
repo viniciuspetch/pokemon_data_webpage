@@ -314,23 +314,41 @@ function PokemonList(props) {
     pokemonString += props.pokemonList[i] + ", ";
   }
   pokemonString = pokemonString.slice(0, pokemonString.length - 2);
+  var pokemonListRender = props.pokemonList.map((pokemon, index) => {
+    return (
+      <Col
+        xs="6"
+        sm="4"
+        md="3"
+        key={index.toString()}
+        style={{ margin: "0px", padding: "0px" }}
+      >
+        <ListGroup.Item style={{ margin: "5px", padding: "10px" }}>
+          {pokemon}
+        </ListGroup.Item>
+      </Col>
+    );
+  });
+
   return (
     <>
-      <Button
-        onClick={() => setOpen(!open)}
-        aria-controls="example-collapse-text"
-        aria-expanded={open}
-      >
-        Show/Hide Pokémon List
-      </Button>
       <Row
         className="justify-content-md-center"
-        style={{ margin: "0 0 10px 0" }}
+        style={{ margin: "0 0 20px 0" }}
       >
-        <Collapse in={open}>
-          <div id="example-collapse-text">{pokemonString}</div>
-        </Collapse>
+        <Col>
+          <Button
+            onClick={() => setOpen(!open)}
+            aria-controls="example-collapse-text"
+            aria-expanded={open}
+          >
+            Show/Hide Pokémon List
+          </Button>
+        </Col>
       </Row>
+      <Collapse in={open}>
+        <Row style={{ margin: "0 5px 20px" }}>{pokemonListRender}</Row>
+      </Collapse>
     </>
   );
 }
