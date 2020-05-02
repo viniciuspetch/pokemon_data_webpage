@@ -316,18 +316,13 @@ function PokemonList(props) {
   pokemonString = pokemonString.slice(0, pokemonString.length - 2);
   return (
     <>
-      <Row
-        className="justify-content-md-center"
-        style={{ margin: "10px 0 0 0" }}
+      <Button
+        onClick={() => setOpen(!open)}
+        aria-controls="example-collapse-text"
+        aria-expanded={open}
       >
-        <Button
-          onClick={() => setOpen(!open)}
-          aria-controls="example-collapse-text"
-          aria-expanded={open}
-        >
-          Show/Hide Pokémon List
-        </Button>
-      </Row>
+        Show/Hide Pokémon List
+      </Button>
       <Row
         className="justify-content-md-center"
         style={{ margin: "0 0 10px 0" }}
