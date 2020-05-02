@@ -12,13 +12,6 @@ code {
     monospace;
 }
 
-.App {
-  max-width: 600px;
-  margin: auto;
-  padding: 30px;
-  text-align: center;
-}
-
 .statbox {
   border: 1px solid black;
   margin: 5px auto;

@@ -50,3 +50,19 @@ html {
 .movesetCard {
   margin: 10px 0;
 }
+
+.body {
+  max-width: 900px;
+  margin: auto;
+  padding: 30px;
+  text-align: center;
+}
+
+.footer {
+  justify-content: center;
+  display: flex;
+  align-items: center;
+  background: #f8f9fa;
+  margin: auto;
+  height: 75px;
+}

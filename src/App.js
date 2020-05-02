@@ -17,6 +17,8 @@ import Tab from "react-bootstrap/Tab";
 import InputGroup from "react-bootstrap/InputGroup";
 import Card from "react-bootstrap/Card";
 import ButtonGroup from "react-bootstrap/ButtonGroup";
+import Navbar from "react-bootstrap/Navbar";
+import Nav from "react-bootstrap/Nav";
 
 function PokemonImage(props) {
   if (props.pokemon) {
@@ -311,7 +313,7 @@ function PokemonList(props) {
   for (var i in props.pokemonList) {
     pokemonString += props.pokemonList[i] + ", ";
   }
-  pokemonString = pokemonString.slice(0, pokemonString.length-2)
+  pokemonString = pokemonString.slice(0, pokemonString.length - 2);
   return (
     <>
       <Row
@@ -360,6 +362,32 @@ function verifyPrevSearch() {
   if (!cookies.get("prevSearchList")) {
     cookies.set("prevSearchList", []);
   }
+}
+
+function PageHeader() {
+  return (
+    <Navbar bg="light" variant="light">
+      <Navbar.Brand>Pokémon Info - React</Navbar.Brand>
+      <Nav>
+        <Nav.Link href="#home">Home</Nav.Link>
+        <Nav.Link href="#features">About</Nav.Link>
+      </Nav>
+    </Navbar>
+  );
+}
+
+function PageFooter() {
+  return (
+    <div className="footer">
+      <div>
+        Powered by <a href="https://reactjs.org/"> React.js</a>
+      </div>
+      <div style={{ margin: "0 20px" }}>
+        Data by <a href="https://pokeapi.co/"> pokeapi.co</a>
+      </div>
+      <div>May 2020</div>
+    </div>
+  );
 }
 
 function getPrevSearch() {
@@ -525,31 +553,41 @@ class App extends React.Component {
     }
 
     return (
-      <Container className="App">
-        <ListGroup>{lastPokemons}</ListGroup>
-        <Row className="justify-content-md-center" style={{ margin: "10px 0" }}>
-          <SearchForm onChange={this.handleChange} onInput={this.handleInput} />
-        </Row>
-        <PokemonList pokemonList={this.state.pokemonList} />
-        {scrollButtons}
-        <PokemonName
-          pokemon={this.state.pokemon}
-          style={{ margin: "10px 0" }}
-        />
-        <PokemonImage pokemon={this.state.pokemon} />
-        <Tabs defaultActiveKey="stats" style={{ marginBottom: "10px" }}>
-          <Tab eventKey="stats" title="Stats">
-            <PokemonStatsTab pokemon={this.state.pokemon} />
-          </Tab>
-          <Tab eventKey="data" title="Data">
-            <PokemonDataTab pokemon={this.state.pokemon} />
-            <PokemonSpeciesDataTab pokemon={this.state.pokemonSpecies} />
-          </Tab>
-          <Tab eventKey="moveset" title="Moveset">
-            <PokemonMovesetTab pokemon={this.state.pokemon} />
-          </Tab>
-        </Tabs>
-      </Container>
+      <div className="App">
+        <PageHeader />
+        <Container className="body">
+          <ListGroup>{lastPokemons}</ListGroup>
+          <Row
+            className="justify-content-md-center"
+            style={{ margin: "10px 0" }}
+          >
+            <SearchForm
+              onChange={this.handleChange}
+              onInput={this.handleInput}
+            />
+          </Row>
+          <PokemonList pokemonList={this.state.pokemonList} />
+          {scrollButtons}
+          <PokemonName
+            pokemon={this.state.pokemon}
+            style={{ margin: "10px 0" }}
+          />
+          <PokemonImage pokemon={this.state.pokemon} />
+          <Tabs defaultActiveKey="stats" style={{ marginBottom: "10px" }}>
+            <Tab eventKey="stats" title="Stats">
+              <PokemonStatsTab pokemon={this.state.pokemon} />
+            </Tab>
+            <Tab eventKey="data" title="Data">
+              <PokemonDataTab pokemon={this.state.pokemon} />
+              <PokemonSpeciesDataTab pokemon={this.state.pokemonSpecies} />
+            </Tab>
+            <Tab eventKey="moveset" title="Moveset">
+              <PokemonMovesetTab pokemon={this.state.pokemon} />
+            </Tab>
+          </Tabs>
+        </Container>
+        <PageFooter />
+      </div>
     );
   }
 }
