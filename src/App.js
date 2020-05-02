@@ -309,11 +309,6 @@ function PokemonMovesetTab(props) {
 
 function PokemonList(props) {
   const [open, setOpen] = useState(false);
-  var pokemonString = "";
-  for (var i in props.pokemonList) {
-    pokemonString += props.pokemonList[i] + ", ";
-  }
-  pokemonString = pokemonString.slice(0, pokemonString.length - 2);
   var pokemonListRender = props.pokemonList.map((pokemon, index) => {
     return (
       <Col
