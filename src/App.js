@@ -350,7 +350,10 @@ function PokemonList(props) {
         </Col>
       </Row>
       <Collapse in={open}>
-        <Row style={{ margin: "0 5px 20px" }}>{pokemonListRender}</Row>
+        <div style={{ margin: "0 5px 20px" }}>
+          <Row>{pokemonListRender}</Row>
+          <Button onClick={() => props.handleChange("")}>Reset</Button>
+        </div>
       </Collapse>
     </>
   );
