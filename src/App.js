@@ -316,9 +316,17 @@ function PokemonList(props) {
         sm="4"
         md="3"
         key={index.toString()}
-        style={{ margin: "0px", padding: "0px" }}
+        style={{ margin: "0px", padding: "5px" }}
       >
-        <ListGroup.Item style={{ margin: "5px", padding: "10px" }}>
+        <ListGroup.Item
+          className="fakeLink"
+          action
+          style={{ margin: "0px", padding: "10px" }}
+          onClick={() => {
+            props.handleChange(pokemon);
+            props.handleInput(pokemon);
+          }}
+        >
           {pokemon}
         </ListGroup.Item>
       </Col>
@@ -574,7 +582,11 @@ class App extends React.Component {
               onInput={this.handleInput}
             />
           </Row>
-          <PokemonList pokemonList={this.state.pokemonList} />
+          <PokemonList
+            pokemonList={this.state.pokemonList}
+            handleChange={this.handleChange}
+            handleInput={this.handleInput}
+          />
           {scrollButtons}
           <PokemonName
             pokemon={this.state.pokemon}
